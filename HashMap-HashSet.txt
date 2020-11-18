@@ -1,0 +1,93 @@
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
+public class TestDemo {
+
+    //字符串中的第一个唯一字符
+    public int firstUniqChar(String s){
+        for (int i = 0;i<s.length();i++){
+            char ch = s.charAt(i);
+            if (s.indexOf(ch) == s.lastIndexOf(ch)){
+                    return i;
+            }
+        }
+        return -1;
+    }
+
+
+  //两个数组的交集
+    public int[] intersection(int[] nums1, int[] nums2){
+        if (nums1 == null || nums1 == null) return null;
+        HashSet<Integer> set1 = new HashSet<>();
+        HashSet<Integer> set2 = new HashSet<>();
+        for (int tmp:nums1) {
+            set1.add(tmp);
+        }
+        for (int tmp:nums2) {
+            if (set1.contains(tmp)){
+                set2.add(tmp);
+            }
+
+        }
+        int[] array = new int[set2.size()];
+        int count = 0;
+        for (int tmp : set2){
+            array[count] = tmp;
+            count++;
+        }
+        return array;
+
+    }
+
+
+  //同构字符串
+    public int[] intersect(int[] nums1, int[] nums2){
+        if (nums1.length>nums2.length){
+            return intersect(nums2,nums1);
+        }
+        Map<Integer,Integer>map = new HashMap<>();
+        for (int sum : nums1){
+            int count = map.getOrDefault(sum,0)+1;
+            map.put(sum,count);
+        }
+        int[] array = new int[nums1.length];
+        int index = 0;
+        for (int sum : nums2){
+            int count = map.getOrDefault(sum,0);
+            if (count>0){
+                array[index++]=sum;
+                count--;
+                if (count>0){
+                    map.put(sum,count);
+                }else {
+                    map.remove(sum);
+                }
+            }
+        }
+        return Arrays.copyOfRange(array,0,index);
+    }
+
+
+
+  //同构字符串
+    public boolean isIsomorphic(String s, String t){
+        int j = s.length();
+        int[] S=new int[123];
+        int[] T=new int[123];
+        for (int i = 0; i < j ; i++) {
+            char c1 = s.charAt(i);
+            char c2 = t.charAt(i);
+            if (S[c1] != T[c2]){
+                return false;
+        }else {
+                if (S[c1] == 0){
+                    S[c1] = i+1;
+                    T[c2] = i+1;
+                }
+            }
+        }
+        return true;
+    }
+}
